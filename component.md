@@ -24,12 +24,14 @@
     - <strong>독립적으로 작업을 수행</strong>
     - 서비스가 한 번 시작되면, 작업을 수행한 후 직접 종료되거나, 다른 구성 요소에서 명시적으로 stopService()를 호출하여 종료
     - 무기한으로 실행되는 것이 가능
+    - 음악 재생, 파일 다운로드, 주기적인 알림
     - 생명 주기: onCreate() -> onStartCommand() -> onDestroy()
   - Bound Service
     - <strong>클라이언트와 지속적인 통신을 위한 서비스</strong>
     - 서비스가 다른 구성 요소에 바인딩되며, 클라이언트와의 상호 작용을 통해 서비스가 실행
     - bindService()로 시작된 서비스를 IBinder 인터페이스를 통해 클라이언트가 서비스와 통신할 수 있도록 함
     - 주로 클라이언트-서버 통신이나 DB 작업 등에 사용되며 클라가 unbindService()를 호출해 연결 해제하면 서비스 종료됨
+    - 위치 기반 앱, 메신저 앱, 센서 데이터
     - 생명 주기: onCreate() -> onBind() -> onUnbind() -> onDestroy()
 
 ## 3. Broadcast Receiver
