@@ -43,3 +43,5 @@
 - 모든 남은 리소스를 해제하거나 작업을 중단하는 적절한 시점
 
 > 리소스 관리<br/>- 뷰와 관련된 리소스: ViewBinding 또는 DataBinding 객체는 onDestroyView()에서 null로 설정<br/>- LifecycleObserver: onPause() 또는 onStop()에서 카메라, 센서, 위치 서비스와 같은 리소스 집약적인 작업을 해제<br/>- 콜백 해제: Listener나 Observer는 Fragment가 제거될 때 메모리 누수를 방지하기 위해 해제합니다. 예를 들어, LiveData의 Observer는 onDestroy()에서 제거할 수 있음
+
+> [개념링크](https://github.com/manjees/interview-study/blob/main/%EB%A9%B4%EC%A0%91%20%EA%B0%9C%EB%85%90/fragment-interview.md)
