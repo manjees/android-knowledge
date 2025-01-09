@@ -50,7 +50,7 @@
   - The actual data source implementation resides in the Data Layer.
   - This abstraction ensures that business logic remains decoupled from specific data source details.
  
-# Testing in Clean Architecture
+# Testing Domain layer in Clean Architecture
 - One of the major advantages of Clean Architecture is its support for robust and independent unit testing.
   - **Domain Layer Testing**: Since the domain layer is free from platform dependencies, Use Cases can be tested easily in isolation.
   - **Repository Interface Mocking**: During tests, you can mock the repository interface without involving actual data sources, ensuring that only business logic is validated.
@@ -76,3 +76,43 @@
 > - Stability: Ensure the Domain Layer remains unchanged despite modifications in UI, APIs, or data sources.
 > - Meaningful Naming: Use clear and descriptive names for classes, functions, and variables to improve readability.
 > - Isolated Code: Keep the Domain Layer free from platform-specific dependencies. This promotes better portability and maintainability.
+
+# Data Layer
+- The Data Layer is responsible for retrieving and storing data, acting as a bridge between the data sources (local and remote) and the core business logic in the Domain Layer.
+- This layer ensures that the Domain Layer remains isolated from the complexities of data handling.
+- Pure Kotlin!
+### Responsibilities of the Data Layer
+**1. Data Provisioning**
+- Supplies data required by the Domain Layer, ensuring it is properly formatted and ready for use.
+**2. Separation of Concerns**
+- Focuses solely on managing data operations (fetching, storing, updating, and deleting), without handling business rules or application logic.
+**3. Repository as a Connector**
+- Implements the Repository pattern to abstract data sources, allowing the Domain Layer to interact with a unified interface rather than dealing with specific data sources directly.
+### Repository Implementation
+- Repositories in the Data Layer are designed to collect data from various sources and provide it to the Domain Layer in a consistent manner.
+- **Responsibility**: Implements the repository interfaces defined in the Domain Layer.
+- **Data Source Integration**: Combines data from multiple sources, such as local databases and remote APIs.
+### Data Sources
+- The **DataSource Interface** standardizes the way data is retrieved from different sources.
+- **LocalDataSource**: Handles data stored locally, such as in an SQLite database or shared preferences.
+- **RemoteDataSource**: Manages data fetched from external sources, like REST APIs or GraphQL endpoints.
+### Model Mapper
+- Since data models in the Data Layer may differ from those in the Domain Layer, a Model Mapper is used to convert between the two.
+- Converts data entities from the data source into domain models for use in the Domain Layer.
+- Handles conversion in both directions (Data Layer models ↔ Domain models) to maintain separation between layers.
+### Implementation Considerations
+**1. Data Fetching Strategy**
+- When implementing the Data Layer, it's important to define a clear strategy for fetching data
+- **Remote-Only Fetching**: Retrieve data directly from the remote source without using local data.
+- **Local-First Approach**: Display locally cached data first and then update it by fetching from the remote source.
+> **Potential Challenges**  
+> - **Data Mismatch**: How will the app handle situations where local and remote data differ?
+> - **Structural Differences**: How will differing data structures between local and remote sources be reconciled?
+**2. Error Handling**
+- Proper error handling is critical when interacting with remote data sources.
+- Implement strategies to handle common errors such as network issues, server unavailability, or timeouts.
+- Provide fallback mechanisms, such as displaying cached data when remote data cannot be fetched.
+> **Key Points to Know**
+> - Repository Design: Ensure that each repository is responsible for only one specific task.
+> - Reactive Programming: Handle asynchronous data streams using Flow or RxJava.
+> - State Management: Design to handle and manage states such as Loading, Success, and Error.
