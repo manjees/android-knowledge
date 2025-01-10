@@ -116,3 +116,42 @@
 > - Repository Design: Ensure that each repository is responsible for only one specific task.
 > - Reactive Programming: Handle asynchronous data streams using Flow or RxJava.
 > - State Management: Design to handle and manage states such as Loading, Success, and Error.
+
+# Remote Layer
+- Responsible for communicating with remote servers to send and receive data.
+- Includes handling of data requests, responses, and network-related errors.
+- Manages API calls using networking libraries such as Retrofit (with OkHttp).
+- Retrofit can be used not only on the Android platform but also as pure Kotlin code.
+- Theoretically, it can be used without depending on the Android platform, but in real-world project implementations, this is often not the case.
+
+# Local Layer
+- A layer responsible for storing and reading local data.
+- Local data is managed through DB, SharedPreferences, and the file system.
+- Local data should be designed with the assumption that "it can be deleted at any time"
+  - Most of the returned data should be nullable to account for this possibility.
+ 
+# Presentation Layer
+- **ViewModel**: Manages UI data and handles user actions.
+- **State Management**: Manages the UI state using LiveData or StateFlow.
+- **Business Logic Invocation**: Calls UseCases to either fetch or send data.
+- **Error Handling and UI Notifications**: Passes error or event notifications to the UI layer.
+
+> ### Android ViewModel?
+> - **Theoretical Concept**: ViewModel should be independent of Android’s ViewModel implementation.
+> - **In Practice**: It is often unavoidable to use Android’s ViewModel in real implementations.
+> - **Guideline**: The ViewModel should not include Android-specific packages.
+>   - Avoid importing android.* packages.
+>   - Exception: AAC-related code (e.g., android.arch.*) is allowed due to the reasons mentioned above.
+
+> ### Point
+> - One-Way Data Flow
+>   - Data flows from the ViewModel to the UI.
+>   - Events (Actions) are sent from the UI to the ViewModel.
+> - State Preservation
+>   - Ensure that the data state is retained even when the screen is redrawn due to events like screen rotation.
+
+# UI Layer
+- Displays data on the screen and handles user input to trigger business logic.
+- Does not directly access business logic; instead, it interacts with the Presentation Layer.
+  - Ignores the Domain Layer.
+  - Uses only the data provided by the ViewModel and sends actions.
